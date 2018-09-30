@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=750, user-scalable=no, target-densitydpi=device-dpi">
+    <title>首页</title>
+    <link rel="stylesheet" type="text/css" href="https://gp.molimami.com/userlink/css/index.css?id=<%=Math.random()%>"/>
+</head>
+<body>
+    <div class="h-container">
+        <div class='h-form-view'>
+            <div class="inputBox">
+                <input type="text" maxLength='11' placeholder='请输入手机号' name="phone" id="phone"/>
+            </div>
+            <div class='inputBox'>
+                <div class='codeInput'>
+                    <input type="text" maxLength='6' placeholder='请输入验证码' name="code"/>
+                </div>
+                <span class='codePrompt'></span>
+                <button class='getCode'>获取验证码</button>
+            </div>
+            <div class="inputBox">
+                <input type="text" placeholder='请输入推荐码' name="inviteCode"/>
+            </div>
+            <div class='inputBox btnBox'>
+                <button type="submit" class='joinBtn'>提交</button>
+            </div>
+        </div>
+        <div class='verifyBox'></div>
+    </div>
+    
+</body>
+<script src="https://gp.molimami.com/userlink/js/libs/jquery-2.1.1.min.js"></script>
+<script src="https://gp.molimami.com/userlink/js/utils.js"></script>
+<script src="https://gp.molimami.com/userlink/js/libs/AuthProvider.js"></script>
+<script src="https://gp.molimami.com/userlink/js/index.js?v=<%=Math.random()%>" type="text/javascript"></script>
+<script>
+   $(function () {
+       controller.init();
+   })
+</script>
+</html>

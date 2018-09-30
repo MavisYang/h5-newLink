@@ -1,0 +1,1 @@
+spanNewLink

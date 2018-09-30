@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=750, user-scalable=no, target-densitydpi=device-dpi">
+    <title>首页</title>
+    <link rel="stylesheet" type="text/css" href="https://gp.molimami.com/userlink/css/index.css?id=<%=Math.random()%>"/>
+</head>
+<body>
+<div class="h-container">
+    <div class="load">loading...</div>
+</div>
+
+</body>
+<script src="https://gp.molimami.com/userlink/js/libs/jquery-2.1.1.min.js"></script>
+<script src="https://gp.molimami.com/userlink/js/utils.js"></script>
+<script src="https://gp.molimami.com/userlink/js/libs/AuthProvider.js"></script>
+<script>
+   $(function () {
+       //根据unionid判断是否已经授权
+       var unionid_h5 = AuthProvider.getCookie('unionid_h5');
+       if(unionid_h5){
+           getUserInfo(unionid_h5);
+       }else{
+           var code = GetQueryString('code')
+           var appid = 'wxc34006e5a93af3dd';
+           var COMPONENT_APPID = 'wx0333c84c2aa460ca';
+           var date = new Date().getTime()
+           if(code==undefined||code==''){
+               location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${redirect_URI}&response_type=code&scope=snsapi_userinfo&state=${date}&component_appid=${COMPONENT_APPID}&connect_redirect=1#wechat_redirect`
+           }else{
+               let url = API_PATH+'/basis-api/noauth/oauth/saveUserInfo?code='+code+'&appid='+appid
+               promiseXHR(url,null,null, 'POST').then(function (res) {
+                   var resData = JSON.parse(res)
+                   if(resData.resultCode = 100){
+                       let keysAry = Object.keys(resData.resultContent)
+                       keysAry.forEach(function (v,i) {
+                           AuthProvider.saveCookie(v+'_h5', resData.resultContent[v],7)
+                       })
+                       getUserInfo(resData.resultContent.unionid);
+                   }
+               })
+           }
+       }
+   
+   })
+    
+    function getUserInfo(unionId) {
+        let url = API_PATH+'/basis-api/noauth/usermgmt/findTempleUserByUnionId?unionId='+unionId;
+        promiseXHR(url,null,null, 'GET').then(function (res) {
+            var resData = JSON.parse(res);
+            if(resData.resultCode==100){
+                var userInfo=resData.resultContent;
+                if(userInfo&&userInfo!='null'){
+                    AuthProvider.saveCookie('userId_h5',userInfo.id,7)
+                    //判读是否有token
+                    var accessToken = AuthProvider.getCookie('access_token_h5')
+                    var refreshToken = AuthProvider.getCookie('refresh_token_h5')
+                    if(accessToken==null||refreshToken==null){
+                        var username = 'unionid_'+unionId+'_type_11'
+                        AuthProvider.onLogin(username,'').then(function(value){
+                            window.location.href=redirect_URI+'newLink.html'
+                        })
+                    }else{
+                        window.location.href=redirect_URI+'newLink.html'
+                    }
+                }else{
+                    window.location.href=redirect_URI+'home.html'
+                }
+            }
+        })
+    }
+
+</script>
+</html>

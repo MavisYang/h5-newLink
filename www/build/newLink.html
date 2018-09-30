@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=750, user-scalable=no, target-densitydpi=device-dpi">
+    <title>生成新链接</title>
+    <link rel="stylesheet" type="text/css" href="https://gp.molimami.com/userlink/css/index.css?id=<%=Math.random()%>"/>
+</head>
+<body>
+<div class="h-container nl-container">
+    <div class='h-form-view'>
+        <div class="inputBox">
+            <input type="text" placeholder='请输入原链接' name="url" id="link"/>
+        </div>
+        <div class='inputBox btnBox'>
+            <button type="submit" class='joinBtn' id="generate">生成</button>
+        </div>
+       <div class="newlink">
+           <div class="link">
+               <div>新链接:</div>
+               <div class="linkUrl" id="linkUrl"></div>
+               <div class="copyBtn" data-clipboard-action="copy" data-clipboard-target="#linkUrl" id="copy_btn">
+                   复制
+               </div>
+           </div>
+           <div class="qrCode">
+               <div>二维码:</div>
+               <div><img src="" alt="" id="qrCodeImg"></div>
+           </div>
+           <p>注：可复制新链接，直接发送</p>
+       </div>
+
+        <div class='verifyBox'></div>
+    </div>
+</div>
+
+</body>
+<script src="https://gp.molimami.com/userlink/js/libs/jquery-2.1.1.min.js"></script>
+<script src="https://gp.molimami.com/userlink/js/utils.js"></script>
+<script src="https://gp.molimami.com/userlink/js/libs/AuthProvider.js"></script>
+<script src="https://gp.molimami.com/userlink/js/link.js?v=<%=Math.random()%>" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/clipboard.js/1.5.12/clipboard.min.js"></script>
+<script>
+    $(function () {
+        controller.init()
+    })
+</script>
+</html>
